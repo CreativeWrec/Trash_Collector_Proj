@@ -12,7 +12,14 @@ namespace TrashCollectorProj.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PostalCode { get; set; }
+        public double Balance { get; set; }
+        public DateTime WeeklyPickUpDate { get; set; }
+        public DateTime ExtraPickUpDate { get; set; }
+        public DateTime SupendStartDate { get; set; }
+        public DateTime SupendEndDate { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
