@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,6 +23,8 @@ namespace TrashCollectorProj.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Customer customer = _context.Customer.Where(s => s.IdentityUserId == userId).SingleOrDefault();
             var applicationDbContext = _context.Customer.Include(c => c.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -61,8 +64,8 @@ namespace TrashCollectorProj.Controllers
         {
             if (ModelState.IsValid)
             {
-                // get id of logged in user
-                // assign that to the customer's foreign key
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                customer.IdentityUserId = userId;
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -93,7 +96,7 @@ namespace TrashCollectorProj.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,ZipCode,Balance,WeeklyPickUpDate,ExtraPickUpDate,SupendStartDate,SupendEndDate,IdentityUserId")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [/*Bind("Id,FirstName,LastName,ZipCode,Balance,WeeklyPickUpDate,ExtraPickUpDate,SupendStartDate,SupendEndDate,IdentityUserId")]*/ Customer customer)
         {
             if (id != customer.Id)
             {
