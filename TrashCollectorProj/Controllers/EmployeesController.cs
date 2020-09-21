@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using TrashCollectorProj.Data;
 using TrashCollectorProj.Models;
@@ -24,9 +27,22 @@ namespace TrashCollectorProj.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var employee = _context.Employee.Where(s => s.IdentityUserId == userId).SingleOrDefault();
-            var applicationDbContext = _context.Employee.Include(e => e.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            var employee = _context.Employee.Where(s => s.IdentityUserId == userId).ToList();
+
+            return View(employee);
+        }
+
+        public async Task<IActionResult> ListOfCustomers()
+        {
+            // get the logged in employee (so that you know their zipcode
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employee.Where(e => e.IdentityUserId == userId).FirstOrDefault();
+            // get customers in the same zipcode as the logged in employee
+            // get "today" 
+            var today = DateTime.Today.TimeOfDay.;
+            var customersInZipForToday = _context.Customer.Where(c => c.ZipCode == employee.ZipCode && c.WeeklyPickUpDate == today).ToList();
+            
+            return View(customersInZipForToday);
         }
 
         // GET: Employees/Details/5

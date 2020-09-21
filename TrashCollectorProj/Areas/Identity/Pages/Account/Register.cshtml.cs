@@ -112,12 +112,12 @@ namespace TrashCollectorProj.Areas.Identity.Pages.Account
                     // if they chose Employee, RedirectToAction => Employees controller's Create Action
                     if (Input.Role == "Customer")
                     {
-                        return RedirectToAction("Create", "Customer");
+                        return RedirectToAction("Create", "Customers");
                     }
 
                     if (Input.Role == "Employee")
                     {
-                        return RedirectToAction("Create", "Employee");
+                        return RedirectToAction("Create", "Employees");
                     }
 
 
