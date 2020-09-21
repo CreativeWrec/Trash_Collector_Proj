@@ -14,15 +14,50 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ZipCode" class="control-label"></label>
+                <input asp-for="ZipCode" class="form-control" />
+                <span asp-validation-for="ZipCode" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="Balance" class="control-label"></label>
+                <input asp-for="Balance" class="form-control" />
+                <span asp-validation-for="Balance" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="WeeklyPickUpDate" class="control-label"></label>
+                <input asp-for="WeeklyPickUpDate" class="form-control" />
+                <span asp-validation-for="WeeklyPickUpDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExtraPickUpDate" class="control-label"></label>
+                <input asp-for="ExtraPickUpDate" class="form-control" />
+                <span asp-validation-for="ExtraPickUpDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupendStartDate" class="control-label"></label>
+                <input asp-for="SupendStartDate" class="form-control" />
+                <span asp-validation-for="SupendStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupendEndDate" class="control-label"></label>
+                <input asp-for="SupendEndDate" class="form-control" />
+                <span asp-validation-for="SupendEndDate" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
                 <label asp-for="IdentityUserId" class="control-label"></label>
                 <select asp-for="IdentityUserId" class="form-control" asp-items="ViewBag.IdentityUserId"></select>
                 <span asp-validation-for="IdentityUserId" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

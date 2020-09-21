@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,6 @@ using TrashCollectorProj.Models;
 
 namespace TrashCollectorProj.Controllers
 {
-    [Authorize(Roles = "Customer")]
     public class CustomersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -59,10 +57,12 @@ namespace TrashCollectorProj.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,IdentityUserId")] Customer customer)
+        public async Task<IActionResult> Create(/*[Bind("Id,FirstName,LastName,ZipCode,Balance,WeeklyPickUpDate,ExtraPickUpDate,SupendStartDate,SupendEndDate,IdentityUserId")]*/ Customer customer)
         {
             if (ModelState.IsValid)
             {
+                // get id of logged in user
+                // assign that to the customer's foreign key
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -93,7 +93,7 @@ namespace TrashCollectorProj.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IdentityUserId")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,ZipCode,Balance,WeeklyPickUpDate,ExtraPickUpDate,SupendStartDate,SupendEndDate,IdentityUserId")] Customer customer)
         {
             if (id != customer.Id)
             {
