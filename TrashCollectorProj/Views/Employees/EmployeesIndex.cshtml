@@ -9,6 +9,21 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<p>
+    <a asp-action="CustomersIndex">Customers On Route</a>
+
+    <a asp-action="FilterByDay" asp-route-selectedDay="Monday">View Monday Customers</a>
+    <a asp-action="FilterByDay" asp-route-selectedDay="Tuesday">View Tuesday Customers</a>
+    <a asp-action="FilterByDay" asp-route-selectedDay="Wednesday">View Wednesday Customers</a>
+    <a asp-action="FilterByDay" asp-route-selectedDay="Thursday">View Thursday Customers</a>
+    <a asp-action="FilterByDay" asp-route-selectedDay="Friday">View Friday Customers</a>
+    <a asp-action="FilterByDay" asp-route-selectedDay="Saturday">View Saturday Customers</a>
+    <a asp-action="FilterByDay" asp-route-selectedDay="Sunday">View Sunday Customers</a>
+
+    @*<a asp-action="Edit" asp-controller="Employees" asp-route-id="@item.Id">Edit</a>*@
+</p>
+
 <table class="table">
     <thead>
         <tr>
