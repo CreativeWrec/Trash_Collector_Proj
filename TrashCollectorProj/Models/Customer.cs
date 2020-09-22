@@ -21,7 +21,7 @@ namespace TrashCollectorProj.Models
         [Display(Name = "Customer Balance")]
         public double Balance { get; set; }
         [Display(Name = "Weekly Pick Up Date")]
-        public DateTime WeeklyPickUpDate { get; set; }
+        public string WeeklyPickUpDate { get; set; }
         [Display(Name = "Extra Pick Up Date")]
         public DateTime ExtraPickUpDate { get; set; }
         [Display(Name = "Supend Start Date")]

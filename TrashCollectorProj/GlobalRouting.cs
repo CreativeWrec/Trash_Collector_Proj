@@ -34,6 +34,7 @@ namespace TrashCollectorProj
         }
         public void OnActionExecuted(ActionExecutedContext context)
         {
+
         }
     }
 

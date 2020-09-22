@@ -24,22 +24,22 @@ namespace TrashCollectorProj.Controllers
         }
 
         // GET: Employees
+        //public async Task<IActionResult> Index()
+        //{
+        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var employee = _context.Employee.Where(s => s.IdentityUserId == userId).ToList();
+
+        //    return View(employee);
+        //}
+
         public async Task<IActionResult> Index()
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var employee = _context.Employee.Where(s => s.IdentityUserId == userId).ToList();
-
-            return View(employee);
-        }
-
-        public async Task<IActionResult> ListOfCustomers()
         {
             // get the logged in employee (so that you know their zipcode
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employee.Where(e => e.IdentityUserId == userId).FirstOrDefault();
             // get customers in the same zipcode as the logged in employee
             // get "today" 
-            var today = DateTime.Today.TimeOfDay.;
+            var today = DateTime.Now.DayOfWeek.ToString();
             var customersInZipForToday = _context.Customer.Where(c => c.ZipCode == employee.ZipCode && c.WeeklyPickUpDate == today).ToList();
             
             return View(customersInZipForToday);
