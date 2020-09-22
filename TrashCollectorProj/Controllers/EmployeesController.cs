@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,16 +24,16 @@ namespace TrashCollectorProj.Controllers
             _context = context;
         }
 
-        // GET: Employees
-        //public async Task<IActionResult> Index()
-        //{
-        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var employee = _context.Employee.Where(s => s.IdentityUserId == userId).ToList();
+        //get: employees
+        public async Task<IActionResult> EmployeesIndex()
+        {
+            var userid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employee.Where(s => s.IdentityUserId == userid).ToList();
 
-        //    return View(employee);
-        //}
+            return View(employee);
+        }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> CustomersIndex()
         {
             // get the logged in employee (so that you know their zipcode
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -44,6 +45,18 @@ namespace TrashCollectorProj.Controllers
             
             return View(customersInZipForToday);
         }
+
+        public async Task<IActionResult> FilterByDay(string selectedDay)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employee.Where(e => e.IdentityUserId == userId).FirstOrDefault();
+            var today = DateTime.Now.DayOfWeek.ToString();
+            var customersInZipForToday = _context.Customer.Where(c => c.ZipCode == employee.ZipCode && c.WeeklyPickUpDate == today).ToList();
+            // when returning view, go to the "CustomersIndex" view
+            return View("CustomersIndex", selectedDay);
+        }
+
+
 
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
