@@ -24,9 +24,15 @@ namespace TrashCollectorProj.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Customer customer = _context.Customer.Where(s => s.IdentityUserId == userId).SingleOrDefault();
-            var applicationDbContext = _context.Customer.Include(c => c.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+
+            Customer customer = _context.Customer.Where(c => c.IdentityUserId == userId).FirstOrDefault();
+
+            if (customer == null)
+            {
+                return RedirectToAction("Create");
+            }
+
+            return View(customer);
         }
 
         // GET: Customers/Details/5
@@ -51,8 +57,9 @@ namespace TrashCollectorProj.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
+            Customer customer = new Customer();
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            return View(customer);
         }
 
         // POST: Customers/Create
@@ -107,7 +114,14 @@ namespace TrashCollectorProj.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
+                    var customerFromDB = await _context.Customer.FindAsync(id);
+                    customerFromDB.FirstName = customer.FirstName;
+                    customerFromDB.LastName = customer.LastName;
+                    customerFromDB.ZipCode = customer.ZipCode;
+                    customerFromDB.WeeklyPickUpDate = customer.WeeklyPickUpDate;
+                    customerFromDB.SupendEndDate = customer.SupendEndDate;
+                    customerFromDB.SupendStartDate = customer.SupendStartDate;
+                    
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

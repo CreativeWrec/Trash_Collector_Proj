@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using AspNetCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using TrashCollectorProj.Data;
 using TrashCollectorProj.Models;
@@ -51,9 +46,9 @@ namespace TrashCollectorProj.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employee.Where(e => e.IdentityUserId == userId).FirstOrDefault();
             var today = DateTime.Now.DayOfWeek.ToString();
-            var customersInZipForToday = _context.Customer.Where(c => c.ZipCode == employee.ZipCode && c.WeeklyPickUpDate == today).ToList();
+            var customersInZipForToday = _context.Customer.Where(c => c.ZipCode == employee.ZipCode && c.WeeklyPickUpDate == selectedDay).ToList();
             // when returning view, go to the "CustomersIndex" view
-            return View("CustomersIndex", selectedDay);
+            return View("CustomersIndex", customersInZipForToday);
         }
 
 
@@ -96,7 +91,7 @@ namespace TrashCollectorProj.Controllers
                 employee.IdentityUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(EmployeesIndex));
             }
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
             return View(employee);
@@ -149,7 +144,7 @@ namespace TrashCollectorProj.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(EmployeesIndex));
             }
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
             return View(employee);
@@ -182,7 +177,7 @@ namespace TrashCollectorProj.Controllers
             var employee = await _context.Employee.FindAsync(id);
             _context.Employee.Remove(employee);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(EmployeesIndex));
         }
 
         private bool EmployeeExists(int id)
